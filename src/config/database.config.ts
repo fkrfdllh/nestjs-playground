@@ -9,7 +9,7 @@ export const DatabaseConfig = registerAs('database', () => ({
   username: String(configService.getOrThrow('DATABASE_USERNAME')),
   password: String(configService.getOrThrow('DATABASE_PASSWORD')),
   database: String(configService.getOrThrow('DATABASE_NAME')),
-  entities: [__dirname + '/../models/**/entities/*{.ts,.js}'],
+  entities: [__dirname + '/../database/entities/*{.ts,.js}'],
   migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
   logging: configService.getOrThrow('NODE_ENV') === 'development',
