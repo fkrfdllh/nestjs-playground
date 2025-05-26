@@ -6,7 +6,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppConfig } from './config/app.config';
 import { DatabaseConfig } from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
