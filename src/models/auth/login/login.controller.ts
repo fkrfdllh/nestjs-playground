@@ -54,8 +54,15 @@ export class LoginController {
       return;
     }
 
+    const { access_token, expires_at } =
+      this.loginService.generateToken(userResult);
+
     response.status(HttpStatus.OK).json({
+      access_token,
+      expires_at,
       user: userResult,
     });
+
+    return;
   }
 }
