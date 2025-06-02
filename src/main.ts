@@ -9,6 +9,9 @@ async function bootstrap() {
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
+  app.setGlobalPrefix('api', {
+    exclude: [''],
+  });
   app.enableCors();
 
   await app.listen(appConfig.port ?? 3000);
