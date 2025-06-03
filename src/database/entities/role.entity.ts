@@ -1,10 +1,14 @@
 import {
   BeforeInsert,
+  BeforeSoftRemove,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
@@ -13,30 +17,38 @@ export class Role {
   @PrimaryGeneratedColumn({
     type: 'int',
   })
-  id: number;
+  id!: number;
 
   @Column({
     nullable: false,
     type: 'varchar',
     name: 'name',
   })
-  name: string;
+  name!: string;
 
-  @Column({
+  @CreateDateColumn({
     type: 'timestamptz',
     name: 'created_at',
     nullable: true,
     precision: 0,
   })
-  createdAt: Date | null;
+  createdAt?: Date;
 
-  @Column({
+  @UpdateDateColumn({
     type: 'timestamptz',
     name: 'updated_at',
     nullable: true,
     precision: 0,
   })
-  updatedAt: Date | null;
+  updatedAt?: Date;
+
+  @DeleteDateColumn({
+    type: 'timestamptz',
+    name: 'deleted_at',
+    nullable: true,
+    precision: 0,
+  })
+  deletedAt?: Date;
 
   @OneToMany(() => User, (user) => user.role)
   users: User[];
@@ -50,5 +62,10 @@ export class Role {
   @BeforeUpdate()
   beforeUpdate() {
     this.updatedAt = new Date();
+  }
+
+  @BeforeSoftRemove()
+  beforeSoftRemove() {
+    this.deletedAt = new Date();
   }
 }

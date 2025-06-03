@@ -1,11 +1,15 @@
 import {
   BeforeInsert,
+  BeforeSoftRemove,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Role } from './role.entity';
 import bcrypt from 'bcrypt';
@@ -15,65 +19,73 @@ export class User {
   @PrimaryGeneratedColumn({
     type: 'bigint',
   })
-  id: number;
+  id!: number;
 
   @Column({
     nullable: false,
     type: 'int',
     name: 'role_id',
   })
-  roleId: number;
+  roleId!: number;
 
   @Column({
     nullable: false,
     type: 'varchar',
     name: 'name',
   })
-  name: string;
+  name!: string;
 
   @Column({
     nullable: false,
     type: 'varchar',
     name: 'email',
   })
-  email: string;
+  email!: string;
 
   @Column({
     nullable: true,
     type: 'varchar',
     name: 'username',
   })
-  username: string | null;
+  username?: string;
 
   @Column({
     nullable: false,
     type: 'varchar',
     name: 'password',
   })
-  password: string;
+  password!: string;
 
   @Column({
     nullable: true,
     type: 'varchar',
     name: 'phone',
   })
-  phone: string | null;
+  phone?: string;
 
-  @Column({
+  @CreateDateColumn({
     type: 'timestamptz',
     name: 'created_at',
     nullable: true,
     precision: 0,
   })
-  createdAt: Date | null;
+  createdAt?: Date;
 
-  @Column({
+  @UpdateDateColumn({
     type: 'timestamptz',
     name: 'updated_at',
     nullable: true,
     precision: 0,
   })
-  updatedAt: Date | null;
+  updatedAt?: Date;
+
+  @DeleteDateColumn({
+    type: 'timestamptz',
+    name: 'deleted_at',
+    nullable: true,
+    precision: 0,
+  })
+  deletedAt?: Date;
 
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   @JoinColumn({ name: 'role_id' })
@@ -89,5 +101,10 @@ export class User {
   @BeforeUpdate()
   beforeUpdate() {
     this.updatedAt = new Date();
+  }
+
+  @BeforeSoftRemove()
+  beforeSoftRemove() {
+    this.deletedAt = new Date();
   }
 }
