@@ -46,7 +46,7 @@ export class LoginService {
     };
   }
 
-  generateToken(payload: any) {
+  generateToken(payload: object) {
     return {
       access_token: this.jwtService.sign(payload),
       expires_at: moment().add('24', 'hours').toDate(),
