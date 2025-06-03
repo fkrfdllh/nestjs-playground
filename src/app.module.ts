@@ -6,6 +6,8 @@ import { AppConfig } from './config/app.config';
 import { DatabaseConfig } from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoginModule } from './models/auth/login/login.module';
+import { PlatformsModule } from './models/platforms/platforms.module';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -21,7 +23,14 @@ import { LoginModule } from './models/auth/login/login.module';
         configService.get('database'),
       inject: [ConfigService],
     }),
+    RouterModule.register([
+      {
+        path: 'master',
+        children: [{ path: 'platforms', module: PlatformsModule }],
+      },
+    ]),
     LoginModule,
+    PlatformsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
