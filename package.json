@@ -17,7 +17,17 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "npx ts-node ./node_modules/typeorm/cli.js",
+    "typeorm:extension": "npx ts-node ./node_modules/typeorm-extension/bin/cli.cjs",
+    "db:create": "npm run typeorm:extension -- db:create -d ./src/database/data-source.config.ts",
+    "db:drop": "npm run typeorm:extension -- db:drop -d ./src/database/data-source.config.ts",
+    "migrate:create": "npm run typeorm -- migration:create ./src/database/migartions/%npm_config_name%",
+    "migrate:run": "npm run typeorm -- migration:run -d ./src/database/data-source.config.ts",
+    "migrate:show": "npm run typeorm -- migration:show -d ./src/database/data-source.config.ts",
+    "migrate:revert": "npm run typeorm -- migration:revert -d ./src/database/data-source.config.ts",
+    "seed:create": "npm run typeorm:extension -- seed:create --name ./src/database/seeders/%npm_config_name%",
+    "seed:run": "node -e \"const nameArgument = process.env.npm_config_name; const command = nameArgument ? 'npm run typeorm:extension -- seed:run -d ./src/database/data-source.config.ts --name ' + nameArgument : 'npm run typeorm:extension -- seed:run -d ./src/database/data-source.config.ts'; require('child_process').execSync(command, { stdio: 'inherit' });\""
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
