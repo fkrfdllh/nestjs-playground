@@ -8,9 +8,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoginModule } from './models/auth/login/login.module';
 import { PlatformsModule } from './models/platforms/platforms.module';
 import { RouterModule } from '@nestjs/core';
+import { RolesModule } from './models/roles/roles.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       cache: false,
@@ -31,6 +34,7 @@ import { RouterModule } from '@nestjs/core';
     ]),
     LoginModule,
     PlatformsModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
