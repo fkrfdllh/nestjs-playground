@@ -50,11 +50,15 @@ export class Role {
   })
   deletedAt?: Date;
 
-  @OneToMany(() => User, (user) => user.role)
+  @OneToMany(() => User, (user) => user.role, {
+    cascade: true,
+    orphanedRowAction: 'soft-delete',
+  })
   users: User[];
 
   @BeforeInsert()
   beforeInsert() {
+    this.name = this.name.toLowerCase();
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
